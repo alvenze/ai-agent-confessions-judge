@@ -21,11 +21,14 @@ def render():
 
 def main():
     os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+    with open("/output/entry.txt", "w", encoding="utf-8", newline="") as f:
         f.write(render())
-    with open("/output/entry.txt", encoding="utf-8") as f:
-        if f.read() != LINE:
-            raise ValueError("entry.txt round-trip mismatch")
+    with open("/output/entry.txt", encoding="utf-8", newline="") as f:
+        written = f.read()
+    if written != LINE:
+        raise ValueError("entry.txt round-trip mismatch")
+    # Local gate report: length, single line, no trailing newline.
+    print(f"entry.txt: {len(written)} chars, 1 line, no trailing newline")
 
 
 if __name__ == "__main__":
